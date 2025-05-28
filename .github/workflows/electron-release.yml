@@ -8,26 +8,31 @@ on:
   push:
     branches:
       - "main"
+      - "dev"
     tags:
       - "v*.*.*"
 
 jobs:
   build_linux:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux:latest
     steps:
-      - name: set git global safe directory
-        run: |
-          pacman -Syu git npm --noconfirm
-          git config --global --add safe.directory $(realpath .)
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
+      - name: Setup latest Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Setup PNPM@10
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.11.0"
 
       - name: build AppImage
         run: |
-          npm install
-          npm run build --linux
+          pnpm install
+          pnpm run build --linux
           chmod +x dist/StreamingServiceLauncher_v*_linux.AppImage
         continue-on-error: true
 
