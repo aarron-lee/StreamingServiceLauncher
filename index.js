@@ -1,5 +1,12 @@
 const streamingServices = require("./services.json");
-const { app, BrowserWindow, shell, ipcMain, Menu } = require("electron");
+const {
+  app,
+  components,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  Menu,
+} = require("electron");
 const path = require("path");
 
 const getServiceName = () => {
@@ -102,7 +109,11 @@ function createWindow() {
   }
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(async () => {
+  await components.whenReady();
+  console.log("components ready:", components.status());
+  createWindow();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
