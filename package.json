@@ -1,6 +1,6 @@
 {
   "name": "streaming-service-launcher",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Simple Launcher for streaming services",
   "main": "index.js",
   "scripts": {
