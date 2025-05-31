@@ -83,3 +83,7 @@ APP_URL=https://example.com  $HOME/.local/bin/streaming-service-launcher
 # ZOOM_FACTOR must be an integer or float
 APP_URL=https://example.com  USER_AGENT="UserAgent Here"  ZOOM_FACTOR="1.5"  $HOME/.local/bin/streaming-service-launcher
 ```
+
+# Attribution
+
+Icon: https://www.flaticon.com/free-icons/tv Tv icons created by Freepik - Flaticon
