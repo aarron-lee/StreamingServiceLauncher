@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=StreamingServiceLauncher
+Exec=startstreamingservicelauncher %U
+Terminal=false
+Type=Application
+Icon=io.github.aarron_lee.StreamingServiceLauncher
+StartupWMClass=StreamingServiceLauncher
+GenericName=StreamingServiceLauncher
+Categories=AudioVideo;
+Comment=Wrapper for streaming services, intended for usage with SteamOS and other gamescope-session distros

@@ -15,36 +15,43 @@ on:
 jobs:
   build_linux:
     runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
     steps:
+      - name: set git global safe directory
+        run: |
+          pacman -Syu git npm tree zip unzip --noconfirm
+          git config --global --add safe.directory $(realpath .)
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup latest Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-
-      - name: Setup PNPM@10
-        uses: pnpm/action-setup@v4
-        with:
-          version: "10.11.0"
-
       - name: build AppImage
         run: |
-          pnpm install
-          pnpm run build --linux
+          npm install
+          npm run build --linux
           chmod +x dist/StreamingServiceLauncher_v*_linux.AppImage
+        continue-on-error: true
+
+      - name: build zip
+        run: |
+          npm install
+          npm run flatpak:build-unpacked
+          zip -r dist/app_unpacked.zip dist/linux-unpacked
         continue-on-error: true
 
       - name: show files
         run: |
           ls ./dist/StreamingServiceLauncher_v*_linux.AppImage
+          ls ./dist/app_unpacked.zip
 
       - name: Publish Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: StreamingServiceLauncher
-          path: ./dist/StreamingServiceLauncher_v*_linux.AppImage
+          path: |
+            ./dist/StreamingServiceLauncher_v*_linux.AppImage
+            ./dist/app_unpacked.zip
 
   publish:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -63,7 +70,9 @@ jobs:
       - name: publish to github release
         uses: softprops/action-gh-release@v1
         with:
-          files: /tmp/artifacts/StreamingServiceLauncher/StreamingServiceLauncher_v*_linux.AppImage
+          files: |
+            /tmp/artifacts/StreamingServiceLauncher/StreamingServiceLauncher_v*_linux.AppImage
+            /tmp/artifacts/StreamingServiceLauncher/app_unpacked.zip
           tag_name: ${{ github.ref_name }}
           body: |
             StreamingServiceLauncher Release

@@ -6,10 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "flatpak:build-unpacked": "electron-builder --linux --dir"
   },
   "build": {
-    "appId": "com.aarron-lee.streaming-service-launcher",
+    "appId": "com.aarron_lee.StreamingServiceLauncher",
     "productName": "StreamingServiceLauncher",
     "electronDownload": {
       "mirror": "https://github.com/castlabs/electron-releases/releases/download/v"

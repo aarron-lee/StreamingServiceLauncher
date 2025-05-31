@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component type="desktop-application">
+  <!--Created with jdAppStreamEdit 9.2-->
+  <id>io.github.aarron_lee.StreamingServiceLauncher</id>
+  <name>StreamingServiceLauncher</name>
+  <summary>Streaming site wrapper for SteamOS and other gamescope-session distros</summary>
+  <developer id="io.github.aarron_lee">
+    <name>aarron-lee</name>
+  </developer>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>StreamingServiceLauncher is a simple launcher that lets you run streaming websites with arbitrary user agents, zoom levels, and other control</p>
+    <p>The intended usage is for SteamOS, as well as other distros where you want to configure websites for a TV interface</p>
+  </description>
+  <screenshots>
+    <screenshot>
+      <caption>App</caption>
+      <image type="source">https://raw.githubusercontent.com/aarron-lee/StreamingServiceLauncher/refs/heads/main/img/app.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.6" date="2025-05-30" type="stable">
+    </release>
+  </releases>
+  <url type="homepage">https://github.com/aarron-lee/StreamingServiceLauncher</url>
+  <url type="bugtracker">https://github.com/aarron-lee/StreamingServiceLauncher/issues</url>
+  <url type="vcs-browser">https://github.com/aarron-lee/StreamingServiceLauncher</url>
+  <url type="contribute">https://github.com/aarron-lee/StreamingServiceLauncher</url>
+  <requires>
+    <internet>always</internet>
+  </requires>
+  <recommends>
+    <control>gamepad</control>
+    <control>tv-remote</control>
+    <control>keyboard</control>
+  </recommends>
+  <supports>
+    <control>keyboard</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <launchable type="desktop-id">io.github.aarron_lee.StreamingServiceLauncher.desktop</launchable>
+</component>
