@@ -19,7 +19,6 @@ mkdir -p $HOME/.local/bin
 mkdir -p $HOME/Applications
 
 # remove old versions
-rm -f $HOME/.local/bin/StreamingServiceLauncher.AppImage
 rm -f $APPIMAGE_PATH
 rm -f $LAUNCHER_PATH
 rm -f $DESKTOP_ENTRY_PATH
