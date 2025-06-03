@@ -39,6 +39,8 @@ const createCopyMenu = () => {
 
 function createWindow() {
   let serviceName, appUrl, userAgent, zoomFactor;
+  let useFullScreen = true;
+  let disableMenuBar = true;
 
   if (process.env.APP_URL) {
     // user provided manual APP_URL override, use it instead
@@ -48,50 +50,35 @@ function createWindow() {
     if (process.env.USER_AGENT) userAgent = process.env.USER_AGENT;
     if (process.env.ZOOM_FACTOR)
       zoomFactor = parseFloat(process.env.ZOOM_FACTOR);
+
+    if (process.env.USE_FULL_SCREEN == "0") {
+      useFullScreen = false;
+    }
+    if (process.env.DISABLE_MENU_BAR == "0") {
+      disableMenuBar = false;
+    }
   } else {
     serviceName = getServiceName();
 
     if (serviceName === "default") {
-      createCopyMenu();
-      // render index.html, since no appName was provided
-      const win = new BrowserWindow({
-        width: 1280,
-        height: 720,
-        minWidth: 1280,
-        minHeight: 720,
-        maxWidth: 1280,
-        maxHeight: 720,
-        fullscreen: false,
-        autoHideMenuBar: true,
-        webPreferences: {
-          nodeIntegration: false,
-          contextIsolation: true,
-          preload: path.join(__dirname, "./preload.js"),
-        },
-      });
-
-      win.webContents.setWindowOpenHandler((details) => {
-        shell.openExternal(details.url);
-        return { action: "deny" };
-      });
-
-      win.loadFile("./index.html");
-      return;
+      return showDefaultApp();
     }
 
     ({ appUrl, userAgent, zoomFactor } = streamingServices[serviceName] || {});
   }
 
   const win = new BrowserWindow({
-    fullscreen: true,
-    autoHideMenuBar: true,
+    fullscreen: useFullScreen,
+    autoHideMenuBar: disableMenuBar,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
     },
   });
-  // pressing alt can bring up the menu bar even when its hidden. This accounts for that and disables it entirely
-  win.setMenu(null);
+  if (disableMenuBar) {
+    // pressing alt can bring up the menu bar even when its hidden. This accounts for that and disables it entirely
+    win.setMenu(null);
+  }
 
   win.loadURL(
     appUrl,
@@ -99,7 +86,7 @@ function createWindow() {
       ? {
           userAgent,
         }
-      : {},
+      : {}
   );
 
   if (zoomFactor && zoomFactor > 0) {
@@ -107,6 +94,33 @@ function createWindow() {
       win.webContents.setZoomFactor(zoomFactor);
     });
   }
+}
+
+function showDefaultApp() {
+  createCopyMenu();
+  // render index.html, since no appName was provided
+  const win = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    minWidth: 1280,
+    minHeight: 720,
+    maxWidth: 1280,
+    maxHeight: 720,
+    fullscreen: false,
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, "./preload.js"),
+    },
+  });
+
+  win.webContents.setWindowOpenHandler((details) => {
+    shell.openExternal(details.url);
+    return { action: "deny" };
+  });
+
+  win.loadFile("./index.html");
 }
 
 app.whenReady().then(async () => {

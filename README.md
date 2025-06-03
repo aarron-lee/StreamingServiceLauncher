@@ -82,6 +82,10 @@ APP_URL=https://example.com  $HOME/.local/bin/streaming-service-launcher
 # Optional: USER_AGENT and ZOOM_FACTOR can additionally be added, but requires the APP_URL env var
 # ZOOM_FACTOR must be an integer or float
 APP_URL=https://example.com  USER_AGENT="UserAgent Here"  ZOOM_FACTOR="1.5"  $HOME/.local/bin/streaming-service-launcher
+
+# Other Optional env vars:
+USE_FULL_SCREEN = 0
+DISABLE_MENU_BAR = 0
 ```
 
 # Attribution
