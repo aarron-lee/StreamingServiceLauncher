@@ -7,6 +7,11 @@ const {
   ipcMain,
   Menu,
 } = require("electron");
+const { initializeSettings } = require("./src/settings");
+const { initializeTray, createTray } = require("./src/appIndicator");
+
+const { setIsHidden, getIsHidden } = initializeSettings(app);
+
 const path = require("path");
 
 const getServiceName = () => {
@@ -39,24 +44,10 @@ const createCopyMenu = () => {
 
 function createWindow() {
   let serviceName, appUrl, userAgent, zoomFactor;
-  let useFullScreen = true;
-  let disableMenuBar = true;
 
   if (process.env.APP_URL) {
-    // user provided manual APP_URL override, use it instead
-    appUrl = process.env.APP_URL;
-
-    // other manual overrides
-    if (process.env.USER_AGENT) userAgent = process.env.USER_AGENT;
-    if (process.env.ZOOM_FACTOR)
-      zoomFactor = parseFloat(process.env.ZOOM_FACTOR);
-
-    if (process.env.USE_FULL_SCREEN == "0") {
-      useFullScreen = false;
-    }
-    if (process.env.DISABLE_MENU_BAR == "0") {
-      disableMenuBar = false;
-    }
+    createCopyMenu();
+    return handleCustomAppUrl();
   } else {
     serviceName = getServiceName();
 
@@ -68,8 +59,73 @@ function createWindow() {
   }
 
   const win = new BrowserWindow({
+    fullscreen: true,
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+  // pressing alt can bring up the menu bar even when its hidden. This accounts for that and disables it entirely
+  win.setMenu(null);
+
+  win.loadURL(
+    appUrl,
+    userAgent?.length
+      ? {
+          userAgent,
+        }
+      : {}
+  );
+
+  if (zoomFactor && zoomFactor > 0) {
+    win.webContents.on("did-finish-load", () => {
+      win.webContents.setZoomFactor(zoomFactor);
+    });
+  }
+}
+
+function handleCustomAppUrl() {
+  const appUrl = process.env.APP_URL;
+
+  let zoomFactor;
+  let userAgent = {};
+  let useFullScreen = true;
+  let disableMenuBar = true;
+  let show = true;
+  let appIndicatorEnabled = false;
+
+  // other manual overrides
+  if (process.env.USER_AGENT) userAgent = { userAgent: process.env.USER_AGENT };
+  if (process.env.ZOOM_FACTOR) zoomFactor = parseFloat(process.env.ZOOM_FACTOR);
+
+  if (process.env.USE_FULL_SCREEN == "0") {
+    useFullScreen = false;
+  }
+  if (process.env.DISABLE_MENU_BAR == "0") {
+    disableMenuBar = false;
+  }
+  if (
+    process.env.ENABLE_APP_INDICATOR == "1" &&
+    process.env.APP_ICON_PATH &&
+    process.env.APP_NAME
+  ) {
+    appIndicatorEnabled = true;
+    show = !getIsHidden(appUrl);
+    initializeTray({
+      application: app,
+      appUrl,
+      setHidden: setIsHidden,
+      getHidden: getIsHidden,
+      appName: process.env.APP_NAME,
+      iconPath: process.env.APP_ICON_PATH,
+    });
+  }
+
+  const win = new BrowserWindow({
     fullscreen: useFullScreen,
     autoHideMenuBar: disableMenuBar,
+    show,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -80,14 +136,11 @@ function createWindow() {
     win.setMenu(null);
   }
 
-  win.loadURL(
-    appUrl,
-    userAgent?.length
-      ? {
-          userAgent,
-        }
-      : {}
-  );
+  if (appIndicatorEnabled) {
+    createTray(win);
+  }
+
+  win.loadURL(appUrl, userAgent);
 
   if (zoomFactor && zoomFactor > 0) {
     win.webContents.on("did-finish-load", () => {

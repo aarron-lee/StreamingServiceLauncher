@@ -19,6 +19,7 @@
       "index.js",
       "package.json",
       "services.json",
+      "src/*",
       "js/*",
       "index.html",
       "preload.js"
