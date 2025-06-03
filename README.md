@@ -88,6 +88,23 @@ USE_FULL_SCREEN = 0
 DISABLE_MENU_BAR = 0
 ```
 
+You can also generate App Desktop entries that enables a System Tray Icon
+
+For the System Tray Icon, you need to provide the following 3 additional env vars: `ENABLE_APP_INDICATOR`, `APP_ICON_PATH`, and `APP_NAME`.
+
+Here's an example for Google Keep:
+
+```bash
+[Desktop Entry]
+Name=Google Keep
+Exec=APP_URL=https://keep.google.com USE_FULL_SCREEN=0 DISABLE_MENU_BAR=0 ENABLE_APP_INDICATOR=1 APP_ICON_PATH="/home/deck/Pictures/icons/keep.png" APP_NAME="Google Keep" /home/deck/Applications/streamingservicelauncher.AppImage
+TryExec=/home/deck/Applications/streamingservicelauncher.AppImage
+Icon=/home/deck/Pictures/icons/keep.png
+Terminal=false
+Type=Application
+
+```
+
 # Attribution
 
 Icon: https://www.flaticon.com/free-icons/tv Tv icons created by Freepik - Flaticon
