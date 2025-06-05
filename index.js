@@ -1,4 +1,5 @@
 const streamingServices = require("./services.json");
+const path = require("path");
 const {
   app,
   components,
@@ -12,7 +13,9 @@ const { initializeTray, createTray } = require("./src/appIndicator");
 
 const { setIsHidden, getIsHidden } = initializeSettings(app);
 
-const path = require("path");
+const userData = app.getPath("userData");
+const sessionData = path.join(userData, "sessionData");
+app.setPath("sessionData", sessionData);
 
 const getServiceName = () => {
   let extractedAppname;
@@ -110,6 +113,7 @@ function handleCustomAppUrl() {
     process.env.APP_ICON_PATH &&
     process.env.APP_NAME
   ) {
+    app.setName(process.env.APP_NAME);
     appIndicatorEnabled = true;
     show = !getIsHidden(appUrl);
     initializeTray({
