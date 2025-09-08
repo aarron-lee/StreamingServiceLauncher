@@ -36,7 +36,7 @@
   "author": "aarron-lee",
   "license": "MIT",
   "devDependencies": {
-    "electron": "github:castlabs/electron-releases#v36.3.1+wvcus",
+    "electron": "github:castlabs/electron-releases#v38.0.0+wvcus",
     "electron-builder": "^26.0.12"
   }
 }
