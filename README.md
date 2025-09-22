@@ -95,14 +95,16 @@ For the System Tray Icon, you need to provide the following 3 additional env var
 Here's an example for Google Keep:
 
 ```bash
+cat <<EOF > "$HOME/.local/share/applications/gkeep.desktop"
 [Desktop Entry]
 Name=Google Keep
-Exec=APP_URL=https://keep.google.com USE_FULL_SCREEN=0 DISABLE_MENU_BAR=0 ENABLE_APP_INDICATOR=1 APP_ICON_PATH="/home/deck/Pictures/icons/keep.png" APP_NAME="Google Keep" /home/deck/Applications/streamingservicelauncher.AppImage
-TryExec=/home/deck/Applications/streamingservicelauncher.AppImage
-Icon=/home/deck/Pictures/icons/keep.png
+Exec=APP_URL=https://keep.google.com USE_FULL_SCREEN=0 DISABLE_MENU_BAR=0 ENABLE_APP_INDICATOR=1 APP_ICON_PATH="$HOME/Pictures/icons/keep.png" APP_NAME="Google Keep" $HOME/Applications/StreamingServiceLauncher.AppImage
+TryExec=$HOME/Applications/StreamingServiceLauncher.AppImage
+Icon=$HOME/Pictures/icons/keep.png
 Terminal=false
 Type=Application
 
+EOF
 ```
 
 # Attribution
