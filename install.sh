@@ -35,7 +35,13 @@ wget \
 
 cat << EOF > $LAUNCHER_PATH
 #!/bin/bash
-$APPIMAGE_PATH --appname=\$1 --no-sandbox
+
+if [ "\$USE_FULL_SCREEN" = "0" ]; then
+  USE_FULL_SCREEN=0 $APPIMAGE_PATH --appname=\$1 --no-sandbox
+else
+  # default is fullscreen
+  $APPIMAGE_PATH --appname=\$1 --no-sandbox
+fi
 EOF
 
 cat << EOF > $DESKTOP_ENTRY_PATH

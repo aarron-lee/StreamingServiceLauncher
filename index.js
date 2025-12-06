@@ -61,8 +61,14 @@ function createWindow() {
     ({ appUrl, userAgent, zoomFactor } = streamingServices[serviceName] || {});
   }
 
+  let useFullScreen = true;
+
+  if (process.env.USE_FULL_SCREEN == "0") {
+    useFullScreen = false;
+  }
+
   const win = new BrowserWindow({
-    fullscreen: true,
+    fullscreen: useFullScreen,
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false,
@@ -78,7 +84,7 @@ function createWindow() {
       ? {
           userAgent,
         }
-      : {}
+      : {},
   );
 
   if (zoomFactor && zoomFactor > 0) {
