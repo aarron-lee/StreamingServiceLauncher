@@ -6,13 +6,27 @@ Simple Launcher for Video Streaming Services on SteamOS, Bazzite, SteamFork, etc
 
 ![app image](./img/app.png)
 
-# Installation / Update
+- [Installation](#install)
+- [Update](#update)
+- [Uninstall](#uninstall)
+- [Usage](#usage)
+  - [Create Desktop Entries](#create-desktop-entries)
+  - [Add to Steam Deck Gaming mode](#add-to-steam-deck-gaming-mode)
+  - [Custom Targets](#custom-targets)
+- [Troubleshooting](#troubleshooting)
+- [Attribution](#attribution)
+
+# Installation
 
 run the following script, it does both install and updates:
 
 ```
 curl -L https://raw.githubusercontent.com/aarron-lee/StreamingServiceLauncher/refs/heads/main/install.sh | sh
 ```
+
+# Update
+
+Simply run the install script again, it should update the app.
 
 # Uninstall
 
@@ -105,6 +119,17 @@ Terminal=false
 Type=Application
 
 EOF
+```
+
+# Troubleshooting
+
+If videos fail to load, try reinstalling the app + deleting your config directory and restarting the app.
+
+To delete the config directory, run the following in terminal:
+
+```bash
+rm -rf $HOME/.config/streaming-service-launcher/
+rm $HOME/.config/streaming-service-launcher.json
 ```
 
 # Attribution
