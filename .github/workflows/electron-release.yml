@@ -20,15 +20,27 @@ jobs:
     steps:
       - name: set git global safe directory
         run: |
-          pacman -Syu git pnpm tree zip unzip --noconfirm
+          pacman -Syu git tree zip unzip --noconfirm
           git config --global --add safe.directory $(realpath .)
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26 # or your project's version / node-version-file
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.18.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: build AppImage
         run: |
-          pnpm install
           pnpm run build --linux
           chmod +x dist/StreamingServiceLauncher_v*_linux.AppImage
         continue-on-error: true
