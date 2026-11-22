@@ -1,0 +1,3 @@
+allowBuilds:
+  electron-winstaller: true
+  electron@https://codeload.github.com/castlabs/electron-releases/tar.gz/3412c2dfbbaad4136f5b6767e902e3859222d1e8: true

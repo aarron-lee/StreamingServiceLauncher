@@ -38,7 +38,8 @@ function updateAppInfo([serviceName, info]) {
     el.innerHTML = `
       <h2 style="text-transform: capitalize;">${serviceName}</h2>
 
-      <p>For this app, it is recommended to use the already existing Standalone App.</p>
+      <p>For this app, it is recommended to use an already existing Standalone App.</p>
+      ${info.unofficialApp && "<p>Disclaimer: this is an unofficial 3rd party app for this service"}
       <p>See the following link: <a rel="noreferrer" target="_blank" href="${info.appUrl}">${info.appUrl}</a></p>
       `;
   } else {

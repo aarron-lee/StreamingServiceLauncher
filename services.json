@@ -7,6 +7,11 @@
   "netflix": {
     "appUrl": "https://www.netflix.com"
   },
+  "netflixUi": {
+    "recommendStandaloneApp": true,
+    "unofficialApp": true,
+    "appUrl": "https://github.com/Ciphay/Vacuumflix"
+  },
   "amazonLuna": {
     "appUrl": "https://luna.amazon.com"
   },
@@ -15,6 +20,7 @@
   },
   "crunchyroll": {
     "recommendStandaloneApp": true,
+    "unofficialApp": true,
     "appUrl": "https://github.com/aarron-lee/crunchyroll-linux?tab=readme-ov-file#crunchyroll-for-linux"
   },
   "amazonPrimeVideo": {
@@ -54,6 +60,11 @@
   "vimeo": {
     "appUrl": "https://vimeo.com/"
   },
+  "xboxGamePass": {
+    "recommendStandaloneApp": true,
+    "unofficialApp": true,
+    "appUrl": "https://github.com/domsvoboda/nexus-launcher"
+  },
   "xboxGamePassStreaming": {
     "appUrl": "https://www.xbox.com/play"
   },
@@ -61,6 +72,7 @@
     "appUrl": "https://music.youtube.com/"
   },
   "youTubeTV": {
-    "appUrl": "https://tv.youtube.com/"
-  }
+    "recommendStandaloneApp": true,
+    "unofficialApp": true,
+    "appUrl": "https://flathub.org/en/apps/rocks.shy.VacuumTube"  }
 }
